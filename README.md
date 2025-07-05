@@ -337,3 +337,744 @@ https://www.geeksforgeeks.org/public-vs-protected-vs-package-vs-private-access-m
 Przedstaw rodzaje asocjacji między klasami. Zilustruj przykładami i schematami UML.
 https://www.baeldung.com/java-composition-aggregation-association
 
+## Wzorce projektowe
+
+### Singleton - konstrukcja, zastosowanie, ograniczenia i problemy
+
+**Źródło do nauki:**
+
+* [Singleton (Baeldung)](https://www.baeldung.com/java-singleton)
+
+
+Singleton to wzorzec projektowy, który gwarantuje, że dana klasa będzie miała tylko jedną instancję w całym programie.
+
+Jak to osiągnąć?
+
+Konstruktor klasy jest prywatny (private), więc obiekty nie mogą być tworzone spoza klasy.
+
+Posiada statyczne pole przechowujące jedyną instancję.
+
+Udostępnia statyczną metodę (np. getInstance()), która zwraca tę instancję — tworzy ją, jeśli jeszcze nie istnieje.
+
+```
+public class Singleton {
+    private static Singleton instance;
+
+    private Singleton() { }
+
+    public static Singleton getInstance() {
+        if(instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+```
+
+Zastosowanie:
+
+Zarządzanie połączeniem z bazą danych.
+
+Logger, konfiguracja aplikacji.
+
+Dostęp do zasobów systemowych.
+
+Ograniczenia i problemy:
+
+Nie jest bezpieczny wątkowo (w prostym wydaniu) — wymaga synchronizacji lub wykorzystania innych wzorców (np. enum).
+
+Trudny do testowania (globalny stan).
+
+Może powodować problemy w środowiskach wielowątkowych lub podczas ładowania klas.
+
+### Budowniczy - konstrukcja i zastosowanie
+
+**Źródło do nauki:**
+
+* [Builder (Refactoring.Guru)](https://refactoring.guru/pl/design-patterns/builder)
+
+
+Budowniczy pozwala na tworzenie złożonych obiektów krok po kroku, oddzielając konstrukcję od reprezentacji.
+
+Umożliwia tworzenie obiektów z różnymi konfiguracjami bez konieczności definiowania wielu konstruktorów.
+
+
+public class House {
+    private int windows;
+    private int doors;
+    private boolean hasGarage;
+
+    private House(Builder builder) {
+        this.windows = builder.windows;
+        this.doors = builder.doors;
+        this.hasGarage = builder.hasGarage;
+    }
+
+    public static class Builder {
+        private int windows;
+        private int doors;
+        private boolean hasGarage;
+
+        public Builder setWindows(int windows) {
+            this.windows = windows;
+            return this;
+        }
+
+        public Builder setDoors(int doors) {
+            this.doors = doors;
+            return this;
+        }
+
+        public Builder setGarage(boolean hasGarage) {
+            this.hasGarage = hasGarage;
+            return this;
+        }
+
+        public House build() {
+            return new House(this);
+        }
+    }
+}
+House house = new House.Builder()
+                .setWindows(4)
+                .setDoors(2)
+                .setGarage(true)
+                .build();
+Zastosowanie:
+
+Gdy konstrukcja obiektu jest skomplikowana.
+
+Gdy chcemy uniknąć wielu przeciążonych konstruktorów.
+
+Umożliwia czytelny i elastyczny sposób tworzenia obiektów.
+
+### Dekorator - konstrukcja i zastosowanie
+
+**Źródło do nauki:**
+
+* [Decorator (Refactoring.Guru)](https://refactoring.guru/pl/design-patterns/decorator)
+
+
+Dekorator pozwala na dynamiczne rozszerzanie funkcjonalności obiektów bez zmiany ich klasy.
+
+Polega na "opakowaniu" obiektu w inny obiekt, który dodaje nowe zachowania.
+
+```
+interface Coffee {
+    String getDescription();
+    double getCost();
+}
+
+class SimpleCoffee implements Coffee {
+    public String getDescription() { return "Simple coffee"; }
+    public double getCost() { return 1.0; }
+}
+
+class MilkDecorator implements Coffee {
+    private Coffee coffee;
+
+    public MilkDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+
+    public String getDescription() {
+        return coffee.getDescription() + ", milk";
+    }
+
+    public double getCost() {
+        return coffee.getCost() + 0.5;
+    }
+}
+```
+
+Zastosowanie:
+
+Gdy chcemy dynamicznie dodawać funkcje do obiektów.
+
+Alternatywa do dziedziczenia.
+
+Popularny w GUI, streamach, obsłudze wejścia/wyjścia.
+
+---
+
+## Kolekcje
+
+### Omów interfejs Collection
+
+**Źródło do nauki:**
+
+* [Collection (Java Docs)](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html)
+
+Collection jest podstawowym interfejsem reprezentującym grupę obiektów, bez określonego porządku ani indeksów.
+
+Podstawowe metody:
+
+add(E e) — dodaje element.
+
+remove(Object o) — usuwa element.
+
+contains(Object o) — sprawdza, czy element jest obecny.
+
+size() — zwraca liczbę elementów.
+
+iterator() — zwraca iterator do przechodzenia po elementach.
+
+Hierarchia:
+
+Collection jest nadinterfejsem dla:
+
+List (kolekcja z uporządkowanym dostępem, np. ArrayList, LinkedList)
+
+Set (kolekcja bez duplikatów)
+
+Queue (kolekcja FIFO)
+
+
+### Porównaj klasy LinkedList i ArrayList
+
+**Źródło do nauki:**
+
+* [ArrayList vs LinkedList (Baeldung)](https://www.baeldung.com/java-arraylist-linkedlist)
+
+Collection jest podstawowym interfejsem reprezentującym grupę obiektów, bez określonego porządku ani indeksów.
+
+Podstawowe metody:
+
+add(E e) — dodaje element.
+
+remove(Object o) — usuwa element.
+
+contains(Object o) — sprawdza, czy element jest obecny.
+
+size() — zwraca liczbę elementów.
+
+iterator() — zwraca iterator do przechodzenia po elementach.
+
+Hierarchia:
+
+Collection jest nadinterfejsem dla:
+
+List (kolekcja z uporządkowanym dostępem, np. ArrayList, LinkedList)
+
+Set (kolekcja bez duplikatów)
+
+Queue (kolekcja FIFO)
+
+### W C++ jest typ std::multimap. Jak zrekonstruować jego działanie w Javie?
+
+**Źródła do nauki:**
+
+* [std::multimap (C++ Reference)](https://en.cppreference.com/w/cpp/container/multimap)
+* [Map (Java Docs)](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)
+
+
+Multimap to mapa, która pozwala na mapowanie jednego klucza na wiele wartości.
+
+W Javie brak jest natywnego Multimap w standardzie, ale można zbudować podobną funkcjonalność:
+
+Użyć Map<K, List<V>> lub Map<K, Set<V>>.
+
+```
+Map<String, List<Integer>> multimap = new HashMap<>();
+
+// dodawanie wartości
+multimap.computeIfAbsent("key1", k -> new ArrayList<>()).add(10);
+multimap.computeIfAbsent("key1", k -> new ArrayList<>()).add(20);
+```
+
+---
+
+## Pliki
+
+### Readery - podział, różnice, zastosowanie
+
+**Źródła do nauki:**
+
+* [Reader Class (GeeksforGeeks)](https://www.geeksforgeeks.org/java-io-reader-class-java/)
+* [BufferedReader (GeeksforGeeks)](https://www.geeksforgeeks.org/java-io-bufferedreader-class-java/)
+* [InputStreamReader (GeeksforGeeks)](https://www.geeksforgeeks.org/inputstreamreader-class-in-java/)
+
+
+Reader to abstrakcyjna klasa do czytania znaków z różnych źródeł.
+
+Najczęściej używane klasy:
+
+InputStreamReader — konwertuje bajty na znaki, pozwala czytać dane z InputStream jako znaki (np. z pliku lub sieci).
+
+BufferedReader — buforuje dane z innego readera, poprawia wydajność oraz umożliwia czytanie po liniach (readLine()).
+
+### Serializacja obiektów. Zapis i odczyt obiektów z pliku
+
+```
+try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("file.txt")))) {
+    String line;
+    while ((line = br.readLine()) != null) {
+        System.out.println(line);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+**Źródło do nauki:**
+
+* [Serialization (Baeldung)](https://www.baeldung.com/java-serialization)
+
+Serializacja to proces zapisu obiektu do strumienia bajtów (np. do pliku), tak aby można go było później odczytać (deserializacja).
+
+Wymagania:
+
+Klasa musi implementować interfejs Serializable.
+
+Pola oznaczone jako transient nie są serializowane
+
+```
+Przykład zapisu i odczytu:
+
+java
+Kopiuj
+Edytuj
+// zapis
+try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("obj.dat"))) {
+    oos.writeObject(obj);
+}
+
+// odczyt
+try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("obj.dat"))) {
+    MyClass obj = (MyClass) ois.readObject();
+}
+```
+
+---
+
+## Wyjątki
+
+### Omów składnię i zastosowanie wyjątków
+
+**Źródło do nauki:**
+
+* [Exceptions in Java (GeeksforGeeks)](https://www.geeksforgeeks.org/exceptions-in-java/)
+
+Wyjątek to zdarzenie, które zakłóca normalny przepływ programu.
+
+Składnia:
+
+try — blok kodu, który może rzucić wyjątek.
+
+catch — blok obsługujący wyjątek.
+
+finally — blok wykonywany zawsze, niezależnie od wystąpienia wyjątku.
+
+throw — ręczne rzucenie wyjątku.
+
+throws — deklaracja, że metoda może rzucić wyjątek.
+
+### Wyjątek Exception a RuntimeException, wyjaśnij różnicę i podaj przykład
+
+**Źródła do nauki:**
+
+* [Exception (Java Docs)](https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html)
+* [RuntimeException (Java Docs)](https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html)
+
+Exception (checked exception):
+
+Musi być obsłużony lub zadeklarowany (np. IOException).
+
+Wymaga jawnej obsługi.
+
+RuntimeException (unchecked exception):
+
+Nie wymaga deklaracji ani obsługi.
+
+Zwykle oznacza błędy programistyczne (np. NullPointerException, ArithmeticException).
+
+Przykład:
+
+```
+try {
+    int a = 10 / 0; // rzuca ArithmeticException (RuntimeException)
+} catch (ArithmeticException e) {
+    System.out.println("Dzielenie przez zero");
+}
+```
+
+### Wyrażenie try-with-resources, składnia, przypadki użycia
+
+**Źródło do nauki:**
+
+* [Try-With-Resources (Oracle)](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html)
+
+
+Try-with-resources automatycznie zamyka zasoby implementujące AutoCloseable (np. strumienie, czytniki).
+
+Przykład:
+
+```
+try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+    String line = br.readLine();
+    System.out.println(line);
+} catch (IOException e) {
+    e.printStackTrace();
+}
+// br automatycznie zamknięty po wyjściu z try
+```
+
+---
+
+## Strumienie
+
+### Opisz trzy metody pośrednie w strumieniu
+
+**Źródło do nauki:**
+
+* [Intermediate Stream Methods (GeeksforGeeks)](https://www.geeksforgeeks.org/intermediate-methods-of-stream-in-java/)
+
+Metody pośrednie (intermediate):
+
+filter(Predicate) — filtruje elementy, przepuszcza tylko spełniające warunek.
+
+map(Function) — mapuje elementy na inne (transformacja).
+
+sorted() — sortuje elementy według naturalnego porządku lub komparatora.
+
+### Omów kolektory
+
+**Źródło do nauki:**
+
+* [Collectors (Baeldung)](https://www.baeldung.com/java-8-collectors)
+
+Kolektory (Collectors) służą do agregowania elementów strumienia do kolekcji, sumowania, grupowania itp.
+
+```
+List<String> collected = list.stream()
+                             .filter(s -> s.startsWith("a"))
+                             .collect(Collectors.toList());
+```
+Popularne kolektory:
+
+toList(), toSet() — kolekcja listy lub zbioru.
+
+joining() — łączenie elementów w jeden String.
+
+groupingBy() — grupowanie według klucza.
+
+partitioningBy() — podział na dwie grupy według warunku.
+
+counting() — zliczanie elementów.
+
+---
+
+## Testowanie
+
+### Przedstaw motywację do stosowania testów, omów Test Driven Development
+
+**Źródło do nauki:**
+
+* [Unit Testing vs TDD (Baeldung)](https://www.baeldung.com/cs/unit-testing-vs-tdd)
+
+
+Motywacje do testowania:
+
+Wykrywanie błędów na wczesnym etapie.
+
+Utrzymanie jakości i niezawodności kodu.
+
+Dokumentacja działania.
+
+Ułatwienie refaktoryzacji.
+
+Test Driven Development (TDD):
+
+Najpierw piszemy testy (które początkowo nie przechodzą).
+
+Następnie piszemy kod, by testy przeszły.
+
+Na końcu refaktoryzujemy kod bez zmiany zachowania.
+
+### Parametryzacja testów
+
+**Źródło do nauki:**
+
+* [Parameterized Tests (Baeldung)](https://www.baeldung.com/parameterized-tests-junit-5)
+
+Parametryzowane testy pozwalają uruchomić ten sam test wielokrotnie z różnymi zestawami danych.
+
+Przykład (JUnit 5):
+
+```
+@ParameterizedTest
+@ValueSource(strings = {"racecar", "radar", "madam"})
+void testPalindrome(String candidate) {
+    assertTrue(isPalindrome(candidate));
+}
+```
+
+---
+
+## Pakiety
+
+### Zasady tworzenia i zastosowanie pakietów
+
+**Źródło do nauki:**
+
+* [Packages (Oracle)](https://docs.oracle.com/javase/tutorial/java/package/index.html)
+
+Pakiety grupują klasy i interfejsy w logiczne jednostki.
+Zalety:
+
+Organizacja kodu.
+
+Unikanie konfliktów nazw.
+
+Kontrola dostępu (pakietowe widoczności).
+
+Ułatwiają modularność.
+
+### Czym są pliki JAR? Omów ich tworzenie i wykorzystanie. Omów manifest.
+
+**Źródło do nauki:**
+
+* [JAR Files (Oracle)](https://docs.oracle.com/javase/tutorial/deployment/jar/index.html)
+
+JAR (Java ARchive) to archiwum plików klas i zasobów, umożliwiające łatwe dystrybuowanie aplikacji.
+
+### Wymień i omów trzy zastosowania Mavena
+
+**Źródło do nauki:**
+
+* [Maven (Baeldung)](https://www.baeldung.com/maven)
+
+Zastosowania:
+
+Budowanie projektów (kompilacja, testy, pakowanie).
+
+Zarządzanie zależnościami (automatyczne pobieranie bibliotek).
+
+Standaryzacja struktury projektu.
+
+### Elementy składowe pliku pom.xml
+
+**Źródło do nauki:**
+
+* [pom.xml Structure (Maven)](https://maven.apache.org/guides/introduction/introduction-to-the-pom.html)
+
+
+
+Główne elementy:
+
+project — korzeń pliku.
+
+groupId — unikalny identyfikator organizacji/projektu.
+
+artifactId — nazwa artefaktu (biblioteki/aplikacji).
+
+version — wersja artefaktu.
+
+dependencies — listy zależności.
+
+build — konfiguracja procesu budowania.
+
+---
+
+## Programowanie generyczne
+
+### Typy generyczne a typ Object
+
+**Źródło do nauki:**
+
+* [Generics in Java (Oracle)](https://docs.oracle.com/javase/tutorial/java/generics/types.html)
+
+Generyki pozwalają definiować klasy i metody operujące na typach parametrów, dając bezpieczeństwo typów bez rzutowania.
+Różnica:
+
+Bez generyków kolekcje przechowują Object, wymagając rzutowania.
+
+Generyki zapewniają typowanie już podczas kompilacji.
+
+### Ograniczenia typów generycznych
+
+**Źródło do nauki:**
+
+* [Wildcards in Generics (Oracle)](https://docs.oracle.com/javase/tutorial/extra/generics/wildcards.html)
+
+Ograniczenia:
+
+Generyki nie działają z typami prostymi (np. int).
+
+Typy są "usuwane" w czasie kompilacji (type erasure).
+
+Nie można tworzyć instancji parametrów typów (new T()).
+
+Wildcards (? extends T, ? super T) umożliwiają elastyczność typ
+
+### Interfejsy funkcyjne: Supplier, Predicate, Consumer, Function
+
+**Źródło do nauki:**
+
+* [Functional Interfaces (Java Docs)](https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html)
+
+Interfejsy funkcyjne:
+
+Supplier<T> — dostarcza obiekt typu T, nie przyjmuje argumentów.
+
+Predicate<T> — testuje warunek na obiekcie T, zwraca boolean.
+
+Consumer<T> — wykonuje operację na obiekcie T, nie zwraca wyniku.
+
+Function<T,R> — przekształca obiekt T na R.
+
+### Interfejsy funkcyjne a funkcje lambda, implementacja własnego interfejsu funkcyjnego
+
+**Źródła do nauki:**
+
+* [Functional Interfaces (Javatpoint)](https://www.javatpoint.com/java-8-functional-interfaces)
+* [Lambda Expressions (Oracle)](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html)
+
+Interfejs funkcyjny — posiada dokładnie jedną metodę abstrakcyjną.
+
+Funkcje lambda umożliwiają tworzenie anonimowych implementacji interfejsów funkcyjnych w zwięzły sposób.
+
+```
+Przykład własnego interfejsu:
+
+java
+Kopiuj
+Edytuj
+@FunctionalInterface
+interface MyFunction {
+    int apply(int x);
+}
+
+// Lambda:
+MyFunction square = x -> x * x;
+```
+
+### Omów szablon Optional
+
+**Źródło do nauki:**
+
+* [Optional (Baeldung)](https://www.baeldung.com/java-optional)
+
+Optional jest kontenerem na wartość, która może być obecna lub nie (zamiast null).
+
+Zalety:
+
+Unika błędów NullPointerException.
+
+Umożliwia czytelne operacje na wartościach opcjonalnych (map, filter, orElse).
+
+Przykład:
+
+```
+Optional<String> optional = Optional.ofNullable(getName());
+optional.ifPresent(name -> System.out.println(name));
+```
+---
+
+## Wątki
+
+### Tworzenie wątku, charakterystyka i porównanie Thread i Runnable
+
+**Źródła do nauki:**
+
+* [Implement Runnable vs Extend Thread (GeeksforGeeks)](https://www.geeksforgeeks.org/implement-runnable-vs-extend-thread-in-java/)
+* [Thread start vs run (GeeksforGeeks)](https://www.geeksforgeeks.org/difference-between-thread-start-and-thread-run-in-java)
+
+Tworzenie wątku:
+
+Dziedzicząc po Thread i nadpisując metodę run().
+
+Implementując interfejs Runnable i przekazując instancję do Thread.
+
+Różnice:
+
+Thread	Runnable
+Dziedziczy po klasie Thread	Implementuje interfejs Runnable
+Nie można dziedziczyć po innej klasie	Można dziedziczyć po innej klasie i implementować Runnable
+Uruchamia wątek przez start()	Przekazywany do wątku, start() wywołuje run() Runnable
+
+### Omów synchronizację wątków
+
+**Źródło do nauki:**
+
+* [Synchronization (GeeksforGeeks)](https://www.geeksforgeeks.org/synchronization-in-java/)
+
+Synchronizacja służy do ochrony zasobów współdzielonych przez wiele wątków.
+
+synchronized blok lub metoda zapewnia, że tylko jeden wątek wykonuje kod na raz.
+
+Zapobiega problemom typu race condition.
+
+### Omów cykl życia wątku
+
+**Źródło do nauki:**
+
+* [Thread Lifecycle (Baeldung)](https://www.baeldung.com/java-thread-lifecycle)
+
+Stany wątku:
+
+NEW — wątek utworzony, ale nie uruchomiony.
+
+RUNNABLE — wątek gotowy do działania lub działający.
+
+BLOCKED — czeka na dostęp do synchronizowanego zasobu.
+
+WAITING — czeka na sygnał (np. wait()).
+
+TIMED_WAITING — czeka z limitem czasu (np. sleep()).
+
+TERMINATED — zakończony.
+
+---
+
+## JavaFX
+
+### Porównanie frameworków do tworzenia interfejsu użytkownika
+
+**Źródło do nauki:**
+
+* [AWT vs Swing vs JavaFX (GeeksforGeeks)](https://www.geeksforgeeks.org/java-awt-vs-java-swing-vs-java-fx/)
+
+Cecha	AWT	Swing	JavaFX
+Model	Opakowanie nad natywnym UI	Komponenty lekkie, czysto Java	Nowoczesny, bogaty UI
+Wygląd	Zależny od platformy	Uniwersalny, temat możliwy	Zaawansowany CSS, stylowanie
+Obsługa multimediów	Słaba	Lepsza	Bardzo dobra
+Obsługa 3D	Brak	Ograniczona	Pełna obsługa 3D
+Nowoczesność	Stary, przestarzały	Popularny, ale zastępowany	Aktualnie rekomendowany
+
+
+### Czym są wydarzenia i jak je obsługiwać w JavaFX?
+
+**Źródło do nauki:**
+
+* [JavaFX Event Handling (TutorialsPoint)](https://www.tutorialspoint.com/javafx/javafx_event_handling.htm)
+
+Wydarzenia (events) to zdarzenia generowane przez użytkownika (kliknięcie, klawiatura) lub system.
+
+Obsługa:
+
+Dodaj listener (np. setOnAction(e -> { ... })).
+
+Można obsługiwać różne typy wydarzeń (MouseEvent, KeyEvent itd.).
+
+### Omów zależność między typami Scene i Stage w JavaFX
+
+**Źródła do nauki:**
+
+* [Scene (Oracle)](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html)
+* [Stage (Oracle)](https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html)
+
+
+Stage to okno aplikacji (główne lub dodatkowe).
+
+Scene to zawartość okna — hierarchia elementów UI (kontrolki, layouty).
+
+Relacja:
+
+Stage posiada jedną aktualnie wyświetlaną Scene.
+
+Można zmieniać Scene w Stage.
+
+Stage = okno; Scene = zawartość okna.
+
+
