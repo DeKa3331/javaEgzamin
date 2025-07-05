@@ -231,4 +231,109 @@ public void process(final String data) {
 
 ---
 
-## ✅ Gotowe do powtarzania przed egzaminem z Javy.
+## Programowanie obiektowe
+
+### Omów porównawczo dziedziczenie klas i implementację interfejsów
+
+**Źródło do nauki:**
+
+* [Extends vs Implements in Java (GeeksforGeeks)](https://www.geeksforgeeks.org/extends-vs-implements-in-java/)
+
+**Dziedziczenie klas (`extends`)** pozwala klasie potomnej przejąć pola i metody klasy bazowej, wspiera ponowne użycie kodu oraz przesłanianie metod (`@Override`). Java nie wspiera wielodziedziczenia klas.
+
+**Implementacja interfejsów (`implements`)** umożliwia klasie implementowanie wielu interfejsów, co pozwala na wielodziedziczenie zachowań. Interfejsy definiują kontrakty, które klasa musi zaimplementować, nie zawierają pól instancyjnych (poza `static final`).
+
+---
+
+### Omów porównawczo klasy abstrakcyjne i interfejsy
+
+**Źródło do nauki:**
+
+* [Interface vs Abstract Class in Java (Baeldung)](https://www.baeldung.com/java-interface-vs-abstract-class)
+
+**Klasy abstrakcyjne:**
+
+* Mogą posiadać metody abstrakcyjne i metody z implementacją.
+* Mogą posiadać pola instancyjne.
+* Wspierają dziedziczenie i umożliwiają częściową implementację zachowań.
+* Klasa może dziedziczyć tylko po jednej klasie abstrakcyjnej.
+
+**Interfejsy:**
+
+* Mogą posiadać metody abstrakcyjne oraz `default` i `static` z implementacją.
+* Brak pól instancyjnych poza `public static final`.
+* Umożliwiają wielodziedziczenie zachowań.
+* Stosowane do definiowania kontraktów między klasami.
+
+---
+
+### Omów polimorfizm
+
+**Źródło do nauki:**
+
+* [Polymorphism in Java (Baeldung)](https://www.baeldung.com/java-polymorphism)
+
+**Polimorfizm** umożliwia wywoływanie metod obiektów różnych klas za pomocą wspólnego typu referencji (np. interfejsu lub klasy bazowej). Pozwala na późne wiązanie (dynamiczne wiązanie metod), zwiększa elastyczność kodu i umożliwia jego rozszerzanie bez zmiany istniejących implementacji.
+
+Przykład:
+
+```java
+Animal a = new Dog(); // Dog jest Animalem
+a.makeSound(); // wywoła wersję metody z klasy Dog
+```
+
+---
+
+### Omów enkapsulację. Przedstaw modyfikatory dostępu w kontekście enkapsulacji. Uwzględnij zagnieżdżenie klas
+
+**Źródło do nauki:**
+
+* [Public vs Protected vs Package vs Private (GeeksforGeeks)](https://www.geeksforgeeks.org/public-vs-protected-vs-package-vs-private-access-modifier-in-java/)
+
+**Enkapsulacja** polega na ukrywaniu implementacji klasy oraz kontrolowaniu dostępu do danych poprzez metody dostępowe (`gettery`, `settery`).
+
+**Modyfikatory dostępu:**
+
+* `public` – dostęp z każdego miejsca.
+* `protected` – dostęp w pakiecie i w klasach dziedziczących.
+* `package-private` (brak modyfikatora) – dostęp w obrębie pakietu.
+* `private` – dostęp tylko w obrębie tej klasy.
+
+**Zagnieżdżenie klas (klasy wewnętrzne):** pozwala organizować kod w logiczne całości, umożliwia dostęp do prywatnych pól klasy zewnętrznej, wspiera enkapsulację i lepsze grupowanie powiązanych elementów.
+
+---
+
+### Przedstaw rodzaje asocjacji między klasami. Zilustruj przykładami i schematami UML
+
+**Źródło do nauki:**
+
+* [Composition, Aggregation and Association in Java (Baeldung)](https://www.baeldung.com/java-composition-aggregation-association)
+
+**Rodzaje asocjacji:**
+
+* **Asocjacja** – ogólne powiązanie między klasami (np. `Teacher` uczy `Student`).
+* **Agregacja** – "ma, ale może istnieć osobno" (np. `Team` posiada `Player`).
+* **Kompozycja** – "ma i nie może istnieć osobno" (np. `House` posiada `Room`).
+
+**Schemat UML:**
+
+* Asocjacja: zwykła linia.
+* Agregacja: linia z pustym rombem.
+* Kompozycja: linia z wypełnionym rombem.
+
+**Przykład kodu:**
+
+```java
+class Team {
+    private List<Player> players; // agregacja
+}
+
+class House {
+    private Room room; // kompozycja
+}
+```
+
+https://www.geeksforgeeks.org/public-vs-protected-vs-package-vs-private-access-modifier-in-java/
+Przedstaw rodzaje asocjacji między klasami. Zilustruj przykładami i schematami UML.
+https://www.baeldung.com/java-composition-aggregation-association
+
