@@ -1,8 +1,4 @@
-# javaEgzamin
-
-# notatkidoEgzaminu
-
-## Podstawy Javy
+# Podstawy Javy
 
 ### 1. Typy proste, obiekty, referencje na obiekty - analiza porównawcza Javy z C++
 
@@ -231,7 +227,7 @@ public void process(final String data) {
 
 ---
 
-## Programowanie obiektowe
+# Programowanie obiektowe
 
 ### Omów porównawczo dziedziczenie klas i implementację interfejsów
 
@@ -337,7 +333,7 @@ https://www.geeksforgeeks.org/public-vs-protected-vs-package-vs-private-access-m
 Przedstaw rodzaje asocjacji między klasami. Zilustruj przykładami i schematami UML.
 https://www.baeldung.com/java-composition-aggregation-association
 
-## Wzorce projektowe
+# Wzorce projektowe
 
 ### Singleton - konstrukcja, zastosowanie, ograniczenia i problemy
 
@@ -497,7 +493,7 @@ Popularny w GUI, streamach, obsłudze wejścia/wyjścia.
 
 ---
 
-## Kolekcje
+# Kolekcje
 
 ### Omów interfejs Collection
 
@@ -584,7 +580,7 @@ multimap.computeIfAbsent("key1", k -> new ArrayList<>()).add(20);
 
 ---
 
-## Pliki
+# Pliki
 
 ### Readery - podział, różnice, zastosowanie
 
@@ -647,7 +643,7 @@ try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("obj.dat"
 
 ---
 
-## Wyjątki
+# Wyjątki
 
 ### Omów składnię i zastosowanie wyjątków
 
@@ -721,7 +717,7 @@ try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
 
 ---
 
-## Strumienie
+# Strumienie
 
 ### Opisz trzy metody pośrednie w strumieniu
 
@@ -764,7 +760,7 @@ counting() — zliczanie elementów.
 
 ---
 
-## Testowanie
+# Testowanie
 
 ### Przedstaw motywację do stosowania testów, omów Test Driven Development
 
@@ -811,7 +807,7 @@ void testPalindrome(String candidate) {
 
 ---
 
-## Pakiety
+# Pakiety
 
 ### Zasady tworzenia i zastosowanie pakietów
 
@@ -876,7 +872,7 @@ build — konfiguracja procesu budowania.
 
 ---
 
-## Programowanie generyczne
+# Programowanie generyczne
 
 ### Typy generyczne a typ Object
 
@@ -971,7 +967,7 @@ optional.ifPresent(name -> System.out.println(name));
 ```
 ---
 
-## Wątki
+# Wątki
 
 ### Tworzenie wątku, charakterystyka i porównanie Thread i Runnable
 
@@ -1027,7 +1023,7 @@ TERMINATED — zakończony.
 
 ---
 
-## JavaFX
+# JavaFX
 
 ### Porównanie frameworków do tworzenia interfejsu użytkownika
 
