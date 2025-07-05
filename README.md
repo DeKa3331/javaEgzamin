@@ -239,6 +239,40 @@ public void process(final String data) {
 
 **Implementacja interfejsów (`implements`)** umożliwia klasie implementowanie wielu interfejsów, co pozwala na wielodziedziczenie zachowań. Interfejsy definiują kontrakty, które klasa musi zaimplementować, nie zawierają pól instancyjnych (poza `static final`).
 
+
+| Cecha                  | Dziedziczenie klas                       | Implementacja interfejsów                                    |
+| ---------------------- | ---------------------------------------- | ------------------------------------------------------------ |
+| **Słowo kluczowe**     | `extends`                                | `implements`                                                 |
+| **Wielokrotne użycie** | Brak wielodziedziczenia                  | Można implementować wiele interfejsów                        |
+| **Pola**               | Dziedziczone (poza prywatnymi)           | Brak pól instancyjnych (tylko `static final`)                |
+| **Domyślne metody**    | Tak                                      | Od Javy 8: `default`, ale bez pól instancyjnych              |
+| **Kiedy używać**       | Hierarchia obiektów, rozszerzanie logiki | Wymuszanie zachowań, różnorodne klasy z tym samym kontraktem |
+
+```
+// Dziedziczenie klasy
+class Animal {
+    void eat() { System.out.println("Animal eats"); }
+}
+
+class Dog extends Animal {
+    @Override
+    void eat() { System.out.println("Dog eats"); }
+}
+
+// Implementacja interfejsu
+interface Walkable {
+    void walk();
+}
+
+class Cat implements Walkable {
+    public void walk() { System.out.println("Cat walks"); }
+}
+```
+
+Wady i ograniczenia
+extends: Brak wielodziedziczenia klas może wymuszać projektowanie za pomocą kompozycji lub interfejsów.
+implements: Brak pól instancyjnych i logiki bazowej w interfejsie, konieczność implementacji wszystkich metod (chyba że interfejs ma default).
+
 ---
 
 ### Omów porównawczo klasy abstrakcyjne i interfejsy
@@ -261,6 +295,45 @@ public void process(final String data) {
 * Umożliwiają wielodziedziczenie zachowań.
 * Stosowane do definiowania kontraktów między klasami.
 
+
+| Cecha                        | Klasy abstrakcyjne                             | Interfejsy                                |
+| ---------------------------- | ---------------------------------------------- | ----------------------------------------- |
+| **Słowo kluczowe**           | `abstract class`                               | `interface`                               |
+| **Dziedziczenie**            | Jedna klasa bazowa                             | Możliwość implementacji wielu interfejsów |
+| **Pola instancyjne**         | Dozwolone                                      | Brak, tylko `public static final`         |
+| **Metody**                   | Abstrakcyjne i z implementacją                 | Abstrakcyjne, `default`, `static`         |
+| **Konstruktor**              | Możliwy                                        | Brak                                      |
+| **Dostępność modyfikatorów** | Może posiadać `protected`, `private`, `public` | Wszystkie metody są `public` domyślnie    |
+| **Kiedy używać**             | Wspólna logika + częściowa implementacja       | Definiowanie kontraktu dla różnych klas   |
+
+Przykład kodu:
+```
+// Klasa abstrakcyjna
+abstract class Animal {
+    String name;
+    abstract void makeSound(); // metoda abstrakcyjna
+    void sleep() { System.out.println("Sleeping..."); } // metoda z implementacją
+}
+
+// Interfejs
+interface Swimmable {
+    void swim();
+}
+
+// Implementacja
+class Dog extends Animal implements Swimmable {
+    @Override
+    void makeSound() { System.out.println("Woof"); }
+
+    @Override
+    public void swim() { System.out.println("Dog swims"); }
+}
+```
+Wady i ograniczenia
+Klasy abstrakcyjne: brak wielodziedziczenia; używaj, gdy potrzebujesz wspólnej logiki.
+
+Interfejsy: brak pól instancyjnych; używaj, gdy potrzebujesz zdefiniować kontrakt i wielodziedziczenie zachowań.
+
 ---
 
 ### Omów polimorfizm
@@ -269,14 +342,123 @@ public void process(final String data) {
 
 * [Polymorphism in Java (Baeldung)](https://www.baeldung.com/java-polymorphism)
 
-**Polimorfizm** umożliwia wywoływanie metod obiektów różnych klas za pomocą wspólnego typu referencji (np. interfejsu lub klasy bazowej). Pozwala na późne wiązanie (dynamiczne wiązanie metod), zwiększa elastyczność kodu i umożliwia jego rozszerzanie bez zmiany istniejących implementacji.
+Polimorfizm to możliwość traktowania obiektów różnych klas poprzez wspólny typ odniesienia oraz wywoływania metod zgodnie z rzeczywistym typem obiektu, co zwiększa elastyczność kodu i umożliwia późne wiązanie metod (dynamiczne).
+
+Wyróżniamy:
+
+Polimorfizm statyczny (w czasie kompilacji)
+
+Polimorfizm dynamiczny (w czasie wykonania)
+
+
+olimorfizm statyczny (kompilacyjny)
+Polimorfizm statyczny polega na przeciążaniu metod (method overloading), gdzie wybór metody następuje w czasie kompilacji na podstawie listy argumentów.
 
 Przykład:
+```
+public class TextFile extends GenericFile {
+    public String read() {
+        return this.getContent().toString();
+    }
+    public String read(int limit) {
+        return this.getContent().toString().substring(0, limit);
+    }
+    public String read(int start, int stop) {
+        return this.getContent().toString().substring(start, stop);
+    }
+}
+```
+Polimorfizm dynamiczny (wykonaniowy)
+Polimorfizm dynamiczny opiera się na przesłanianiu metod (method overriding), gdzie ostateczny wybór metody odbywa się w czasie działania programu, zgodnie z rzeczywistym typem obiektu.
 
-```java
+Przykład:
+```
+public class GenericFile {
+    public String getFileInfo() {
+        return "Generic File Impl";
+    }
+}
+
+public class ImageFile extends GenericFile {
+    public String getFileInfo() {
+        return "Image File Impl";
+    }
+}
+
+public static void main(String[] args) {
+    GenericFile file = new ImageFile();
+    System.out.println(file.getFileInfo()); // wypisze "Image File Impl"
+}
+```
+Inne cechy polimorficzne w Javie
+4.1 Koercja typów
+Automatyczne konwersje typów wykonywane przez kompilator:
+
+```
+String s = "liczba: " + 10; // liczba: 10
+```
+4.2 Przeciążanie operatorów (w ograniczonym zakresie)
+Symbol + może oznaczać dodawanie liczb lub łączenie String:
+
+
+```
+String str = "2" + 2; // "22"
+int sum = 2 + 2;      // 4
+```
+4.3 Parametry polimorficzne
+Ten sam parametr może przyjmować różne typy:
+
+```
+public class Example {
+    String content;
+    void example() {
+        int content = 100;
+        this.content = this.content + content;
+    }
+}
+```
+Należy uważać na przesłanianie zmiennych lokalnych (variable hiding).
+
+4.4 Podtypy polimorficzne
+Możliwość przypisania różnych podtypów do zmiennej typu nadrzędnego:
+
+```
+GenericFile[] files = { new ImageFile(), new TextFile() };
+for (GenericFile file : files) {
+    file.getFileInfo();
+}
+```
+Mechanizm ten łączy upcasting (przypisanie podtypu do typu bazowego) oraz późne wiązanie metod.
+
+5️⃣ Problemy związane z polimorfizmem
+5.1 Identyfikacja typu przy downcastingu
+Downcasting umożliwia dostęp do metod podtypu:
+
+```
+GenericFile file = new ImageFile();
+ImageFile img = (ImageFile) file;
+Jednak jeśli obiekt nie jest rzeczywiście instancją ImageFile, wystąpi ClassCastException:
+```
+```
+GenericFile file = new GenericFile();
+ImageFile img = (ImageFile) file; // błąd w czasie wykonania
+Aby temu zapobiec:
+```
+```
+if (file instanceof ImageFile) {
+    ImageFile img = (ImageFile) file;
+}
+```
+generalny przykład:
+```
 Animal a = new Dog(); // Dog jest Animalem
 a.makeSound(); // wywoła wersję metody z klasy Dog
 ```
+
+
+
+
+
 
 ---
 
