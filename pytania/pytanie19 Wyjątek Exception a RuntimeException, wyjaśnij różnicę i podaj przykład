@@ -1,0 +1,62 @@
+Wyjątek Exception vs RuntimeException – różnica i przykłady
+1️⃣ Exception (checked exception)
+✅ Są to wyjątki kontrolowane (ang. checked):
+
+Kompilator wymaga ich obsługi przez try-catch lub zadeklarowania w metodzie throws.
+
+Służą do obsługi przewidywalnych błędów, które mogą wystąpić podczas działania programu, np. brak pliku, błąd sieci.
+
+Przykłady klas:
+
+IOException – błędy podczas operacji wejścia/wyjścia.
+
+SQLException – błędy związane z bazą danych.
+
+FileNotFoundException – plik nie został znaleziony.
+
+Przykład:
+```
+public void readFile(String path) throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader(path));
+    String line = reader.readLine();
+    System.out.println(line);
+    reader.close();
+}
+```
+Tutaj metoda musi zadeklarować throws IOException, ponieważ FileReader może zgłosić wyjątek.
+2️⃣ RuntimeException (unchecked exception)
+✅ Są to wyjątki niekontrolowane (ang. unchecked):
+
+Kompilator nie wymaga ich obsługi ani deklaracji throws.
+
+Zwykle wynikają z błędów programistycznych (błędnej logiki), które powinny być naprawione w kodzie.
+
+Przykłady klas:
+
+NullPointerException – odwołanie do null.
+
+ArrayIndexOutOfBoundsException – indeks poza zakresem tablicy.
+
+ArithmeticException – np. dzielenie przez zero.
+
+Przykład:
+```
+public void divide(int a, int b) {
+    int result = a / b; // jeśli b == 0, zgłosi ArithmeticException
+    System.out.println(result);
+}
+```
+Tutaj nie musimy używać try-catch ani throws, ale jeśli istnieje ryzyko błędu, możemy dodać obsługę:
+```
+try {
+    divide(10, 0);
+} catch (ArithmeticException e) {
+    System.out.println("Błąd: " + e.getMessage());
+}
+```
+| Cecha                          | `Exception` (checked)             | `RuntimeException` (unchecked)                |
+| ------------------------------ | --------------------------------- | --------------------------------------------- |
+| Czy kompilator wymaga obsługi? | Tak (`try-catch` lub `throws`)    | Nie                                           |
+| Przykłady                      | `IOException`, `SQLException`     | `NullPointerException`, `ArithmeticException` |
+| Kiedy występują?               | Przewidywalne sytuacje zewnętrzne | Błędy programistyczne (błędna logika)         |
+| Propagacja                     | Musi być jawnie obsłużona         | Może być nieobsłużona, program się przerwie   |
