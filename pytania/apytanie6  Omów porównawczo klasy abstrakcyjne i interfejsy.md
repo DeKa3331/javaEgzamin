@@ -1,3 +1,59 @@
+1. Definicja:
+
+Klasa abstrakcyjna — klasa, która może mieć zarówno metody z implementacją, jak i abstrakcyjne (bez implementacji). Nie można jej bezpośrednio instancjonować.
+
+Interfejs — typ definiujący tylko sygnatury metod (od Javy 8 może też mieć metody domyślne i statyczne). Służy jako kontrakt dla klas implementujących.
+
+2. Dziedziczenie i implementacja:
+
+Klasa może rozszerzać (extends) tylko jedną klasę abstrakcyjną.
+
+Klasa może implementować (implements) wiele interfejsów jednocześnie.
+
+Interfejs może rozszerzać wiele innych interfejsów.
+
+3. Metody i pola:
+
+Klasa abstrakcyjna może mieć metody o dowolnych modyfikatorach dostępu (public, protected, private) i pola instancyjne/statyczne.
+
+Interfejs ma metody domyślnie publiczne; pola są zawsze public static final (stałe).
+
+4. Konstruktor:
+
+Klasa abstrakcyjna może mieć konstruktor (wywoływany przez podklasy).
+
+Interfejs nie może mieć konstruktora.
+
+5. Zastosowanie:
+
+Klasa abstrakcyjna — gdy chcemy dzielić wspólną implementację i stan między powiązanymi klasami (relacja „jest”).
+
+Interfejs — gdy chcemy określić kontrakt lub zdolności, które mogą implementować niepowiązane klasy (relacja „potrafi”).
+
+```
+// Klasa abstrakcyjna
+abstract class Animal {
+    void breathe() { System.out.println("Breathing"); }
+    abstract void makeSound();
+}
+
+// Interfejs
+interface Flyable {
+    void fly();
+}
+```
+
+| Cecha               | Klasa abstrakcyjna                       | Interfejs                           |
+| ------------------- | ---------------------------------------- | ----------------------------------- |
+| Dziedziczenie       | `extends` jedna klasa                    | `implements` wiele interfejsów      |
+| Metody              | Abstrakcyjne i z implementacją           | Abstrakcyjne, domyślne, statyczne   |
+| Pola                | Mogą być zmienne instancyjne i statyczne | Tylko stałe (`public static final`) |
+| Konstruktor         | Tak                                      | Nie                                 |
+| Przykładowa relacja | „A jest B”                               | „A potrafi coś zrobić”              |
+| Użycie              | Wspólny kod i stan dla powiązanych klas  | Definiowanie kontraktu              |
+
+
+# notatka
 1. Wprowadzenie
 Abstrakcja jest jedną z kluczowych cech programowania obiektowego. Pozwala ukryć złożoność implementacji, oferując funkcjonalności poprzez prostsze interfejsy. W Javie abstrakcję osiągamy, używając albo interfejsu, albo klasy abstrakcyjnej.
 
