@@ -1,3 +1,91 @@
+1. Kopiowanie obiektu
+Kopiowanie to ogólne pojęcie oznaczające tworzenie nowej zmiennej lub obiektu o takiej samej zawartości jak oryginał.
+
+W przypadku typów prymitywnych kopiowanie tworzy nową zmienną z niezależną kopią wartości.
+
+W przypadku typów obiektowych kopiowanie może być:
+
+Płytkie (shallow copy) – kopiuje tylko referencję, więc obie zmienne wskazują na ten sam obiekt.
+
+Głębokie (deep copy) – tworzy nowy, niezależny obiekt z taką samą zawartością.
+
+2. Klonowanie obiektu w Javie
+Klonowanie to specjalny mechanizm kopiowania obiektów za pomocą metody clone() z klasy Object.
+
+Aby można było legalnie użyć metody clone(), klasa musi implementować interfejs Cloneable (marker interface).
+
+Jeżeli klasa nie implementuje Cloneable, wywołanie clone() skutkuje wyrzuceniem wyjątku CloneNotSupportedException.
+
+Metoda clone() domyślnie wykonuje shallow copy (kopiuje pola po polu, ale nie tworzy nowych obiektów dla pól będących referencjami).
+
+Aby wykonać deep copy, należy nadpisać metodę clone() tak, by jawnie sklonować pola obiektowe (utworzyć nowe instancje).
+
+3. Interfejs Cloneable
+Jest to interfejs znacznikowy (marker interface) – nie zawiera metod, służy tylko do oznaczenia, że klasa wspiera klonowanie.
+
+Implementacja Cloneable zezwala na wywołanie Object.clone() bez wyjątku.
+
+Klasa powinna również nadpisać metodę clone(), ponieważ oryginalna metoda w Object jest chroniona (protected).
+
+4. Przykład poprawnego klonowania
+```
+class A implements Cloneable {
+    int i;
+    String s;
+
+    public A(int i, String s) {
+        this.i = i;
+        this.s = s;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone(); // wykonuje shallow copy
+    }
+}
+```
+5. Przykład deep copy z użyciem clone()
+```
+class Test {
+    int x, y;
+}
+
+class Test2 implements Cloneable {
+    int a, b;
+    Test c = new Test();
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Test2 t = (Test2) super.clone(); // shallow copy
+        t.c = new Test();                // nowy obiekt – deep copy pola c
+        t.c.x = this.c.x;
+        t.c.y = this.c.y;
+        return t;
+    }
+}
+```
+ROZNICE
+| Aspekt            | Kopiowanie                                     | Klonowanie (Java)                                           |
+| ----------------- | ---------------------------------------------- | ----------------------------------------------------------- |
+| Zakres            | Ogólne pojęcie kopiowania danych               | Specyficzny mechanizm kopiowania obiektów                   |
+| Wykonanie         | Można robić ręcznie (np. new + kopiowanie pól) | Poprzez metodę `clone()` z `Cloneable`                      |
+| Typ kopiowania    | Płytkie lub głębokie, zależne od implementacji | Domyślnie płytkie, można nadpisać do głębokiego             |
+| Wymagania w Javie | Brak                                           | Implementacja interfejsu `Cloneable` i nadpisanie `clone()` |
+
+Podsumowanie
+Cloneable to marker interface pozwalający na użycie metody clone() bez błędu.
+
+Domyślna metoda clone() wykonuje shallow copy, czyli kopiuje pola po polu, ale nie tworzy nowych obiektów dla referencji.
+
+Aby wykonać deep copy, trzeba nadpisać metodę clone() i jawnie sklonować pola obiektowe.
+
+Klonowanie jest więc szczególnym sposobem kopiowania obiektów w Javie, ściśle powiązanym z interfejsem Cloneable.
+
+Jeśli klasa nie implementuje Cloneable, wywołanie clone() skutkuje wyjątkiem CloneNotSupportedException.
+
+
+# notatki
+
 Cloneable Interface w Javie
 Ostatnia aktualizacja: 24 listopada 2020
 
