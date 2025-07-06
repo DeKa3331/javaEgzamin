@@ -4,6 +4,8 @@ W Javie nie ma dokładnego odpowiednika multimap w standardowej bibliotece, ale 
 
 Sposób 1: Map<K, List<V>>
 Używamy mapy, gdzie wartością jest lista wartości przypisanych do danego klucza.
+K-klucz
+list<v>-lista jakiegos typu np List<Intinger>
 ```
 Map<K, List<V>> multimap = new HashMap<>();
 
