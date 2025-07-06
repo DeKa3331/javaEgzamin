@@ -1,3 +1,60 @@
+Polimorfizm w Javie — omówienie
+1. Definicja
+Polimorfizm to jedna z podstawowych cech programowania obiektowego, pozwalająca na różne zachowania obiektów w zależności od ich rzeczywistego typu, mimo że są traktowane jako typy bazowe.
+
+2. Typy polimorfizmu
+Polimorfizm statyczny (kompilacyjny)
+Decyzja, która metoda zostanie wywołana, zapada na etapie kompilacji.
+
+Realizowany przez przeciążanie metod (overloading) — ta sama nazwa metody, różne parametry.
+
+Przykład:
+```
+class TextFile {
+    String read() { ... }
+    String read(int limit) { ... }
+    String read(int start, int stop) { ... }
+}
+```
+Kompilator wybiera odpowiednią wersję read() w zależności od argumentów.
+
+Polimorfizm dynamiczny (w czasie wykonania)
+Decyzja, która metoda zostanie wywołana, zapada podczas działania programu (runtime).
+
+Realizowany przez nadpisywanie metod (overriding) i wiązanie dynamiczne.
+
+Przykład:
+```
+class GenericFile {
+    String getFileInfo() { return "Generic"; }
+}
+
+class ImageFile extends GenericFile {
+    @Override
+    String getFileInfo() { return "Image File Info"; }
+}
+
+GenericFile file = new ImageFile();
+System.out.println(file.getFileInfo()); // Wywoła ImageFile.getFileInfo()
+```
+. Inne aspekty polimorfizmu w Javie
+Koercja polimorficzna — automatyczna konwersja typów, np. "tekst" + 2 → "tekst2".
+
+Przeciążanie operatorów — operator + działa różnie dla liczb i łańcuchów znaków.
+
+Polimorficzne parametry — lokalne zmienne mogą "ukrywać" pola klasy, dostęp do nich wymaga użycia this.
+
+Polimorficzne podtypy — kolekcje obiektów klasy bazowej mogą zawierać różne podtypy, a wywołanie metody wykona odpowiednią implementację.
+
+4. Podsumowanie
+| Rodzaj polimorfizmu      | Kiedy decyzja o wywołaniu metody? | Przykład realizacji           | Charakterystyka                     |
+| ------------------------ | --------------------------------- | ----------------------------- | ----------------------------------- |
+| Statyczny (kompilacyjny) | Kompilacja                        | Przeciążanie metod (overload) | Metoda wybierana wg sygnatury       |
+| Dynamiczny (runtime)     | Wykonanie                         | Nadpisywanie metod (override) | Wiązanie dynamiczne wg typu obiektu |
+
+
+# notatka
+
 1. Przegląd
 Wszystkie języki programowania obiektowego (OOP) mają cztery podstawowe cechy: abstrakcję, enkapsulację, dziedziczenie oraz polimorfizm.
 
