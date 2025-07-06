@@ -1,3 +1,71 @@
+| Lp. | `extends` (dziedziczenie klas)                                                                  | `implements` (implementacja interfejsów)                                                  |
+| --- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| 1.  | Klasa może dziedziczyć po jednej klasie nadrzędnej (single inheritance).                        | Klasa może implementować dowolną liczbę interfejsów (multiple inheritance of types).      |
+| 2.  | Podklasa dziedziczy właściwości i metody klasy nadrzędnej.                                      | Klasa musi zaimplementować wszystkie metody interfejsu (chyba że sama jest abstrakcyjna). |
+| 3.  | Klasa dziedzicząca może nadpisywać (override) metody klasy nadrzędnej.                          | Metody interfejsu są domyślnie abstrakcyjne i nie mają implementacji (do Javy 8).         |
+| 4.  | Słowo kluczowe `extends` używane jest również, gdy interfejs dziedziczy po innych interfejsach. | Słowo kluczowe `implements` jest używane tylko przez klasy do implementacji interfejsów.  |
+| 5.  | Brak wielodziedziczenia klas — klasa może mieć tylko jedną bezpośrednią klasę bazową.           | Możliwość implementacji wielu interfejsów przez jedną klasę.                              |
+| 6.  | Konstruktor klasy nadrzędnej można wywołać w konstruktorze podklasy za pomocą `super()`.        | Interfejsy nie mają konstruktorów.                                                        |
+
+Szczegóły dotyczące extends
+Służy do dziedziczenia implementacji i stanu (pól, metod) z klasy bazowej.
+
+Pozwala na rozszerzenie lub modyfikację funkcjonalności klasy bazowej.
+
+Przykład:
+```
+class One {
+    public void methodOne() {
+        System.out.println("Metoda z klasy One");
+    }
+}
+
+class Two extends One {
+    public static void main(String[] args) {
+        Two t = new Two();
+        t.methodOne();  // dziedziczenie metody
+    }
+}
+```
+Klasa może rozszerzać tylko jedną klasę nadrzędną ze względu na uniknięcie problemów z wielodziedziczeniem.
+Szczegóły dotyczące implements
+Służy do implementacji metod zadeklarowanych w interfejsie, który definiuje tylko sygnatury metod (pełna abstrakcja).
+
+Klasa implementująca interfejs musi dostarczyć definicje wszystkich metod interfejsu (chyba że jest abstrakcyjna).
+
+Przykład implementacji wielu interfejsów:
+```
+interface One {
+    void methodOne();
+}
+
+interface Two {
+    void methodTwo();
+}
+
+class Three implements One, Two {
+    public void methodOne() {
+        System.out.println("Implementacja methodOne");
+    }
+
+    public void methodTwo() {
+        System.out.println("Implementacja methodTwo");
+    }
+}
+```
+Interfejsy mogą rozszerzać wiele innych interfejsów za pomocą extends.
+
+| Cecha                             | `extends` (dziedziczenie klas)                  | `implements` (implementacja interfejsów)                       |
+| --------------------------------- | ----------------------------------------------- | -------------------------------------------------------------- |
+| Liczba dziedziczonych typów       | Jedna klasa bazowa                              | Dowolna liczba interfejsów                                     |
+| Co dziedziczone / implementowane  | Implementacja i stan (metody i pola)            | Deklaracje metod (od Javy 8 też domyślne i statyczne)          |
+| Nadpisywanie metod                | Tak                                             | Implementacja obowiązkowa wszystkich metod interfejsu          |
+| Konstruktor                       | Możliwość wywołania konstruktora klasy bazowej  | Brak konstruktorów w interfejsach                              |
+| Wielodziedziczenie                | Nie (Java nie wspiera wielodziedziczenia klas)  | Tak (klasa może implementować wiele interfejsów)               |
+| Dziedziczenie między interfejsami | Tak (interfejs może rozszerzać inne interfejsy) | Nie (interfejs implementuje inne interfejsy) — używa `extends` |
+
+
+# notatki
 Extends vs Implements w Javie
 Ostatnia aktualizacja: 27 marzec 2025
 
