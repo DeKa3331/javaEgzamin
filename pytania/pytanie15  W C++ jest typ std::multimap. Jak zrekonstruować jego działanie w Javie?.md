@@ -31,6 +31,25 @@ boolean remove(K key, V value) {
 }
 ```
 
+```
+public class Main {
+    public static void main(String[] args) {
+        MultiMap<String, Integer> multimap = new MultiMap<>();
+
+        multimap.put("a", 1);
+        multimap.put("a", 2);
+        multimap.put("b", 3);
+
+        System.out.println(multimap.get("a")); // [1, 2]
+        System.out.println(multimap.get("b")); // [3]
+
+        multimap.remove("a", 1);
+        System.out.println(multimap.get("a")); // [2]
+    }
+}
+```
+
+
 | Cecha              | `std::multimap` w C++ | `Map<K, List<V>>` w Javie           |
 | ------------------ | --------------------- | ----------------------------------- |
 | Duplikaty kluczy   | Tak                   | Tak (lista może zawierać duplikaty) |
