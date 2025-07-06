@@ -1,3 +1,97 @@
+Sposoby użycia słowa kluczowego final w Javie
+Słowo kluczowe final służy do ograniczenia możliwości modyfikacji klas, metod, zmiennych i parametrów. Zapewnia większe bezpieczeństwo i stabilność kodu, chroniąc przed niezamierzonymi zmianami.
+
+1. final przy deklaracji klasy
+Klasa oznaczona jako final nie może być dziedziczona.
+
+Zapobiega to tworzeniu podklas i nadpisywaniu zachowania klasy.
+
+Przykład:
+```
+public final class Cat { }
+// public class BlackCat extends Cat { } // Błąd kompilacji!
+```
+Przykład z Javy: String jest klasą final – nie można jej rozszerzać.
+final przy metodach
+Metoda oznaczona jako final nie może być nadpisana w klasach potomnych.
+
+Pozwala na zabezpieczenie kluczowej logiki metody przed modyfikacją.
+
+Przykład:
+```
+public class Dog {
+    public final void sound() { /* ... */ }
+}
+
+public class BlackDog extends Dog {
+    public void sound() { } // Błąd: nie można nadpisać metody final
+}
+```
+ final przy zmiennych (prymitywnych)
+Zmienna final może być przypisana tylko raz – po inicjalizacji nie można zmieniać jej wartości.
+
+Przykład:
+```
+final int i = 1;
+i = 2; // Błąd: przypisanie do zmiennej final jest niedozwolone
+```
+. final przy referencjach do obiektów
+Referencja oznaczona jako final nie może być zmieniona, aby wskazywać na inny obiekt.
+
+Jednak można modyfikować stan obiektu, na który wskazuje referencja.
+
+Przykład:
+```
+final Cat cat = new Cat();
+cat.setWeight(5);   // OK, zmieniamy stan obiektu
+cat = new Cat();    // Błąd: nie można zmienić referencji final
+```
+5. final przy polach klasy (stałe i write-once)
+Pola oznaczone jako final muszą być zainicjalizowane tylko raz – mogą pełnić rolę stałych lub pól zapisywanych tylko raz.
+
+Pola static final można inicjalizować przy deklaracji lub w bloku statycznym.
+
+Pola instancyjne final można inicjalizować przy deklaracji, w bloku inicjalizacyjnym lub w konstruktorze.
+
+Przykład:
+```
+static final int MAX_WIDTH = 999;
+final int instanceValue;
+
+public MyClass(int val) {
+    instanceValue = val;  // inicjalizacja final pola w konstruktorze
+}
+```
+final przy parametrach metody
+Parametr oznaczony jako final nie może być zmieniony wewnątrz metody.
+
+Zapewnia to, że wartość przekazana do metody pozostanie niezmienna.
+
+Przykład:
+```
+public void methodWithFinalArg(final int x) {
+    x = 1; // Błąd: nie można zmienić parametru final
+}
+```
+| Zakres użycia             | Znaczenie                               | Przykład                       | Efekt                                           |
+| ------------------------- | --------------------------------------- | ------------------------------ | ----------------------------------------------- |
+| **Klasa**                 | Klasa **nie może być dziedziczona**     | `public final class Cat {}`    | Nie można utworzyć podklasy                     |
+| **Metoda**                | Metoda **nie może być nadpisana**       | `public final void sound() {}` | Podklasa nie może nadpisać metody               |
+| **Zmienna prymitywna**    | Wartość **nie może być zmieniona**      | `final int x = 5;`             | Próba zmiany powoduje błąd                      |
+| **Referencja do obiektu** | Referencja **nie może zmienić obiektu** | `final Cat cat = new Cat();`   | Można zmieniać stan obiektu, ale nie referencję |
+| **Pole klasy**            | Pole **musi być zainicjalizowane raz**  | `static final int MAX = 100;`  | Stała, wartość niezmienna                       |
+| **Parametr metody**       | Parametr **nie może być zmieniony**     | `void foo(final int x) {}`     | Próba zmiany parametru – błąd                   |
+
+
+Warto zapamiętać
+final to narzędzie do zabezpieczenia kodu przed niepożądanymi zmianami.
+
+Ogranicza elastyczność (np. uniemożliwia dziedziczenie lub nadpisanie metody), ale zwiększa bezpieczeństwo i przewidywalność działania.
+
+Jest szeroko stosowane w bibliotekach standardowych Javy (np. String, Thread.isAlive()).
+
+# notatki
+
 Dziedziczenie pozwala nam na ponowne wykorzystanie istniejącego kodu, ale czasami musimy ograniczyć możliwość rozszerzania klas z różnych powodów. Słowo kluczowe final umożliwia dokładnie takie ograniczenie.
 
 W tym materiale omówimy, co oznacza słowo final w kontekście klas, metod i zmiennych.
