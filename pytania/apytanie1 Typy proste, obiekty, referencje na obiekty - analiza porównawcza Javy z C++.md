@@ -71,22 +71,25 @@ int x = 10;
 int y = x;  // kopia wartości
 y = 30;
 System.out.println(x); // 10 (bez zmian)
-Java (typ obiektowy):
 ```
+Java (typ obiektowy):
+
 ```
 int[] c = {10, 20, 30};
 int[] d = c;  // obie referencje wskazują na ten sam obiekt
 d[1] = 50;
 System.out.println(c[1]); // 50 (zmiana widoczna przez obie referencje)
-C++ (obiekt na stercie i wskaźnik):
 ```
+C++ (obiekt na stercie i wskaźnik):
+
 ```
 int* p1 = new int(10);
 int* p2 = p1; // oba wskaźniki wskazują na ten sam obiekt
 *p2 = 20;
 std::cout << *p1; // 20
-C++ (obiekt na stosie, kopiowanie):
 ```
+C++ (obiekt na stosie, kopiowanie):
+
 ```
 int x = 10;
 int y = x;  // kopia wartości
