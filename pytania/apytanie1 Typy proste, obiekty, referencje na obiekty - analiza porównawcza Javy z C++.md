@@ -1,3 +1,100 @@
+#gotowe GPT
+Typy proste, obiekty i referencje na obiekty – analiza porównawcza Javy i C++
+1. Typy danych prymitywne
+Java posiada 8 typów prymitywnych:
+byte, short, int, long (liczby całkowite),
+float, double (liczby zmiennoprzecinkowe),
+char (znak Unicode),
+boolean (wartość logiczna true lub false).
+
+Wartości prymitywne są przechowywane bezpośrednio na stosie (stack).
+
+Przy kopiowaniu zmiennej prymitywnej tworzona jest nowa, niezależna kopia, więc zmiany w kopii nie wpływają na oryginał.
+
+C++ również posiada typy prymitywne (int, char, float, double, bool itd.) przechowywane na stosie.
+
+Kopiowanie tworzy oddzielną kopię wartości, identycznie jak w Javie.
+
+2. Typy obiektowe (referencyjne)
+Java:
+
+Wszystkie obiekty są tworzone na stercie (heap).
+
+Zmienne obiektowe przechowują referencję (odpowiednik wskaźnika) do obiektu na stosie.
+
+Przy kopiowaniu zmiennej obiektowej kopiowana jest referencja, czyli dwie zmienne wskazują na ten sam obiekt.
+
+Zmiany dokonane przez jedną referencję są widoczne przez drugą.
+
+Java nie posiada jawnych wskaźników ani arytmetyki wskaźników.
+
+Zarządzanie pamięcią odbywa się automatycznie przez garbage collector.
+
+Nie ma destruktorów.
+
+C++:
+
+Obiekty mogą być tworzone zarówno na stosie, jak i na stercie (przy użyciu new).
+
+Zmienne mogą przechowywać obiekty bezpośrednio (na stosie) lub wskaźniki do obiektów na stercie.
+
+Kopiowanie wskaźników skutkuje wskazywaniem obu zmiennych na ten sam obiekt (podobnie jak referencje w Javie).
+
+Kopiowanie obiektu (np. przez konstruktor kopiujący) tworzy nową, niezależną kopię.
+
+Programista musi ręcznie zarządzać pamięcią (new/delete) lub stosować wzorce RAII.
+
+W C++ dostępne są jawne wskaźniki i arytmetyka wskaźników.
+
+Klasy mogą definiować destruktory, które są wywoływane przy usuwaniu obiektów.
+
+| Aspekt                                    | Java                                               | C++                                                               |
+| ----------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------------- |
+| Typy prymitywne                           | 8 predefiniowanych (`int`, `char`, `boolean` itd.) | Podobne (`int`, `char`, `bool` itd.)                              |
+| Typy obiektowe                            | Obiekty na stercie, zmienne przechowują referencje | Obiekty na stosie lub stercie, zmienne mogą być wskaźnikami       |
+| Przechowywanie prymitywów                 | Na stosie                                          | Na stosie                                                         |
+| Przechowywanie obiektów                   | Obiekty na stercie, referencje na stosie           | Stos lub sterta, wskaźniki i obiekty bezpośrednie                 |
+| Kopiowanie prymitywów                     | Tworzy nową kopię wartości                         | Tworzy nową kopię wartości                                        |
+| Kopiowanie obiektów                       | Kopiuje referencję (wskazują na ten sam obiekt)    | Kopiuje wskaźnik lub tworzy kopię obiektu (konstruktor kopiujący) |
+| Zarządzanie pamięcią                      | Automatyczne (garbage collector)                   | Ręczne (`new`/`delete`) lub automatyczne (RAII)                   |
+| Jawne wskaźniki                           | Brak                                               | Są dostępne wraz z arytmetyką wskaźników                          |
+| Destruktory                               | Brak                                               | Obecne w klasach                                                  |
+| Bezpieczeństwo pamięci                    | Wyższe – brak arytmetyki wskaźników, brak wycieków | Niższe – ryzyko błędów wskaźnikowych i wycieków pamięci           |
+| Domyślna wartość zmiennych referencyjnych | `null`                                             | `nullptr`                                                         |
+
+
+Przykładowe zachowanie na przykładzie kopiowania
+Java (typ prymitywny):
+
+```
+int x = 10;
+int y = x;  // kopia wartości
+y = 30;
+System.out.println(x); // 10 (bez zmian)
+Java (typ obiektowy):
+```
+```
+int[] c = {10, 20, 30};
+int[] d = c;  // obie referencje wskazują na ten sam obiekt
+d[1] = 50;
+System.out.println(c[1]); // 50 (zmiana widoczna przez obie referencje)
+C++ (obiekt na stercie i wskaźnik):
+```
+```
+int* p1 = new int(10);
+int* p2 = p1; // oba wskaźniki wskazują na ten sam obiekt
+*p2 = 20;
+std::cout << *p1; // 20
+C++ (obiekt na stosie, kopiowanie):
+```
+```
+int x = 10;
+int y = x;  // kopia wartości
+y = 20;
+std::cout << x; // 10
+
+```
+# notatki
 Typy danych prymitywne vs. obiektowe w Javie z przykładami
 Ostatnia aktualizacja: 23 lipca 2024
 
