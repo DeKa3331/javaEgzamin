@@ -62,46 +62,42 @@ N – Number
 1️⃣ Problem z używaniem typu Object
 Przykład:
 
-java
-Kopiuj
-Edytuj
+```
 public class Box {
     private Object object;
     public void set(Object object) { this.object = object; }
     public Object get() { return object; }
 }
+```
 Przechowuje dowolny obiekt, ale:
 ❌ Brak bezpieczeństwa typów – kompilator nie sprawdza, jaki typ wstawiasz i odbierasz.
 ❌ Potrzebne ręczne rzutowanie przy odczycie:
 
-java
-Kopiuj
-Edytuj
+```
 Box box = new Box();
 box.set("tekst");
 Integer liczba = (Integer) box.get(); // Błąd w runtime: ClassCastException
+```
 ❌ Błędy ujawniają się dopiero w czasie uruchomienia.
 
 2️⃣ Rozwiązanie: Typy generyczne
 Definicja:
 
-java
-Kopiuj
-Edytuj
+```
 public class Box<T> {
     private T t;
     public void set(T t) { this.t = t; }
     public T get() { return t; }
 }
+```
 Zalety:
 ✅ Kompilator wymusza spójność typu:
 
-java
-Kopiuj
-Edytuj
+```
 Box<Integer> integerBox = new Box<>();
 integerBox.set(123);
 Integer liczba = integerBox.get(); // brak rzutowania
+```
 ✅ Brak potrzeby rzutowania.
 ✅ Błędy wykrywane w czasie kompilacji, a nie w runtime.
 ✅ Poprawia czytelność kodu i zrozumienie intencji (np. Box<Integer>).
